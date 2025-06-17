@@ -1,63 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Challenge Run Generator</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h1>🎮 Nightreign Challenge Run Generator</h1>
-            <p>Generate a unique challenge run for you and your friends!</p>
-        </header>
+      <header>
+        <h1>🎮 Nightreign Challenge Run Generator</h1>
+        <p>Generate a unique challenge run for you and your friends!</p>
+      </header>
 
-        <main>
-            <div class="generator-section">
-                <h2>Generate Your Challenge</h2>
-                <div class="generator-controls">
-                    <div class="control-row">
-                        <div class="toggle-container">
-                            <label class="toggle-label">
-                                <input type="checkbox" id="multiplayerToggle" class="toggle-input">
-                                <span class="toggle-slider"></span>
-                                <span class="toggle-text">Multiplayer Mode</span>
-                            </label>
-                        </div>
-                        <div class="modifier-count-container">
-                            <label for="modifierCount" class="modifier-label">Number of Modifiers:</label>
-                            <select id="modifierCount" class="modifier-select">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3" selected>3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button id="generateBtn" class="generate-btn">Generate Challenge Run</button>
-                </div>
-                
-                <div id="challengeResult" class="challenge-result hidden">
-                    <h3>Your Challenge Run:</h3>
-                    <div id="charactersSection" class="characters-section">
-                        <!-- Character cards will appear here -->
-                    </div>
-                    <div id="challengeContent" class="challenge-content">
-                        <!-- Generated challenge will appear here -->
-                    </div>
-                    <button id="newChallengeBtn" class="secondary-btn">Generate New Challenge</button>
-                </div>
+      <main>
+        <div class="generator-section">
+          <h2>Generate Your Challenge</h2>
+          <div class="generator-controls">
+            <div class="control-row">
+              <div class="toggle-container">
+                <label class="toggle-label">
+                  <input
+                    type="checkbox"
+                    id="multiplayerToggle"
+                    class="toggle-input"
+                  />
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-text">Multiplayer Mode</span>
+                </label>
+              </div>
+              <div class="modifier-count-container">
+                <label for="modifierCount" class="modifier-label"
+                  >Number of Modifiers:</label
+                >
+                <select id="modifierCount" class="modifier-select">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
+              </div>
             </div>
-        </main>
+            <button id="generateBtn" class="generate-btn">
+              Generate Challenge Run
+            </button>
+          </div>
 
-        <footer>
-            <p>&copy; 2025 Challenge Run Generator</p>
-        </footer>
+          <div id="challengeResult" class="challenge-result hidden">
+            <h3>Your Challenge Run:</h3>
+            <div id="charactersSection" class="characters-section">
+              <!-- Character cards will appear here -->
+            </div>
+            <div id="challengeContent" class="challenge-content">
+              <!-- Generated challenge will appear here -->
+            </div>
+            <button id="newChallengeBtn" class="secondary-btn">
+              Generate New Challenge
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 Challenge Run Generator</p>
+      </footer>
     </div>
 
     <script src="js/app.js"></script>
-</body>
+  </body>
 </html>

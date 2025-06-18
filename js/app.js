@@ -1,87 +1,91 @@
+class Character {
+  constructor(name, icon, image = null) {
+    this.name = name;
+    this.icon = icon;
+    this.image = image;
+  }
+
+  getDisplayImage() {
+    return this.image || this.icon;
+  }
+
+  hasCustomImage() {
+    return this.image !== null;
+  }
+}
+
+class ChallengeItem {
+  constructor(description, type, weight = 1, requirements = {}) {
+    this.description = description;
+    this.type = type;
+    this.weight = weight;
+    this.requirements = requirements;
+    this.category = this.getCategoryDisplay();
+  }
+
+  getCategoryDisplay() {
+    const categoryMap = {
+      restriction: "🚫 Restriction",
+      objective: "🎯 Objective",
+      modifier: "⚡ Modifier",
+    };
+    return categoryMap[this.type] || "❓ Unknown";
+  }
+
+  canBeSelected(selectedItems, context = {}) {
+    if (this.requirements.exclusiveGroup) {
+      const conflictingItems = selectedItems.filter(
+        (item) => item.requirements.exclusiveGroup === this.requirements.exclusiveGroup
+      );
+      if (conflictingItems.length > 0) {
+        return false;
+      }
+    }
+
+    if (this.requirements.prerequisite) {
+      const hasPrereq = selectedItems.some((item) =>
+        this.requirements.prerequisite.includes(item.description)
+      );
+      if (!hasPrereq) {
+        return false;
+      }
+    }
+
+    if (this.requirements.conflicts) {
+      const hasConflict = selectedItems.some((item) =>
+        this.requirements.conflicts.includes(item.description)
+      );
+      if (hasConflict) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  getWeightedChance() {
+    return this.weight;
+  }
+}
+
 class ChallengeGenerator {
   constructor() {
-    this.allModifiers = {
-      restrictions: [
-        "No healing allowed",
-        "Only use melee weapons",
-        "Only use ranged weapons",
-        "No magic/ash of war allowed",
-        "No character skills",
-        "No ultimate art",
-        "No downs",
-        "No picking up runes after death",
-        "No leveling",
-        "No churches",
-        "No wending grace",
-        "No consumable items",
-        "No stoneshard keys",
-        "No relics",
-        "Only 2 relics",
-        "Only 1 relic",
-        "Drop weapon at spawn",
-        "No grouping (when possible)",
-        "No field bosses",
-        "No blacksmiths/merchants",
-        "Starter weapon only",
-        "Rare or below weapons only",
-        "No spiritual spring or spectral hawk",
-        "No surge sprint",
-      ],
-      objectives: [],
-      modifiers: [],
-    };
-
-    this.exclusiveGroups = [
-      {
-        name: "relic_restrictions",
-        items: ["No relics", "Only 2 relics", "Only 1 relic"],
-      },
-      {
-        name: "item_restrictions",
-        items: [
-          "No consumable items",
-          "No stoneshard keys",
-          "No wending grace",
-        ],
-      },
-      {
-        name: "weapon_restrictions",
-        items: ["Only use melee weapons", "Only use ranged weapons"],
-      },
-      {
-        name: "down_related",
-        items: ["No downs", "No picking up runes after death"],
-      },
-    ];
-
-    this.characters = {
-      names: [
-        "Wylder",
-        "Guardian",
-        "Ironeye",
-        "Duchess",
-        "Raider",
-        "Revenant",
-        "Recluse",
-        "Executor",
-      ],
-      icons: [
-        "⚔️",
-        "🏹",
-        "🔮",
-        "🛡️",
-        "🗡️",
-        "🏺",
-        "⚡",
-        "🌟",
-        "🔥",
-        "❄️",
-        "🌙",
-        "☀️",
-      ],
-    };
-
+    this.challengeItems = this.initializeChallengeItems();
+    this.characters = this.initializeCharacters();
     this.initializeEventListeners();
+  }
+
+  initializeCharacters() {
+    return [
+      new Character("Wylder", "⚔️"),
+      new Character("Guardian", "🛡️"),
+      new Character("Ironeye", "🏹"),
+      new Character("Duchess", "🗡️"),
+      new Character("Raider", "🔨"),
+      new Character("Revenant", "🏺"),
+      new Character("Recluse", "⚡"),
+      new Character("Executor", "🌟"),
+    ];
   }
 
   initializeEventListeners() {
@@ -96,101 +100,47 @@ class ChallengeGenerator {
     return array[Math.floor(Math.random() * array.length)];
   }
 
-  getAllModifiersFlat() {
-    const allModifiers = [];
-
-    this.allModifiers.restrictions.forEach((item) => {
-      allModifiers.push({
-        text: item,
-        category: "🚫 Restriction",
-        type: "restriction",
-      });
-    });
-
-    this.allModifiers.objectives.forEach((item) => {
-      allModifiers.push({
-        text: item,
-        category: "🎯 Objective",
-        type: "objective",
-      });
-    });
-
-    this.allModifiers.modifiers.forEach((item) => {
-      allModifiers.push({
-        text: item,
-        category: "⚡ Modifier",
-        type: "modifier",
-      });
-    });
-
-    return allModifiers;
+  weightedRandomSelection(items, count) {
+    const selectedItems = [];
+    const availableItems = [...items];
+    
+    while (selectedItems.length < count && availableItems.length > 0) {
+      const eligibleItems = availableItems.filter(item => 
+        item.canBeSelected(selectedItems)
+      );
+      
+      if (eligibleItems.length === 0) {
+        break;
+      }
+      
+      const totalWeight = eligibleItems.reduce((sum, item) => sum + item.getWeightedChance(), 0);
+      let randomNum = Math.random() * totalWeight;
+      
+      let selectedItem = null;
+      for (const item of eligibleItems) {
+        randomNum -= item.getWeightedChance();
+        if (randomNum <= 0) {
+          selectedItem = item;
+          break;
+        }
+      }
+      
+      if (selectedItem) {
+        selectedItems.push(selectedItem);
+        const index = availableItems.indexOf(selectedItem);
+        availableItems.splice(index, 1);
+      }
+    }
+    
+    return selectedItems;
   }
 
   getRandomModifiers(count) {
-    const allModifiers = this.getAllModifiersFlat();
-    const selectedModifiers = [];
-    const usedGroups = new Set();
-
-    const maxCount = Math.min(count, allModifiers.length);
-
-    while (selectedModifiers.length < maxCount) {
-      const randomIndex = Math.floor(Math.random() * allModifiers.length);
-      const candidateModifier = allModifiers[randomIndex];
-
-      if (
-        selectedModifiers.some(
-          (selected) => selected.text === candidateModifier.text
-        )
-      ) {
-        continue;
-      }
-
-      let hasConflict = false;
-      for (const group of this.exclusiveGroups) {
-        if (group.items.includes(candidateModifier.text)) {
-          if (usedGroups.has(group.name)) {
-            hasConflict = true;
-            break;
-          } else {
-            usedGroups.add(group.name);
-            break;
-          }
-        }
-      }
-
-      if (!hasConflict) {
-        selectedModifiers.push(candidateModifier);
-      }
-
-      if (
-        selectedModifiers.length === 0 &&
-        selectedModifiers.length < maxCount &&
-        this.getAllAvailableModifiers(usedGroups).length === 0
-      ) {
-        break;
-      }
-    }
-
-    return selectedModifiers;
-  }
-
-  getAllAvailableModifiers(usedGroups) {
-    const allModifiers = this.getAllModifiersFlat();
-    return allModifiers.filter((modifier) => {
-      for (const group of this.exclusiveGroups) {
-        if (group.items.includes(modifier.text) && usedGroups.has(group.name)) {
-          return false;
-        }
-      }
-      return true;
-    });
+    return this.weightedRandomSelection(this.challengeItems, count);
   }
 
   generateCharacter() {
-    return {
-      name: this.getRandomElement(this.characters.names),
-      icon: this.getRandomElement(this.characters.icons),
-    };
+    return this.getRandomElement(this.characters);
   }
 
   generateCharacters(isMultiplayer) {
@@ -221,7 +171,7 @@ class ChallengeGenerator {
                   .map(
                     (character) => `
                     <div class="character-card">
-                        <div class="character-image">${character.icon}</div>
+                        <div class="character-image ${character.hasCustomImage() ? 'has-custom-image' : ''}">${character.hasCustomImage() ? `<img src="${character.image}" alt="${character.name}" />` : character.getDisplayImage()}</div>
                         <div class="character-name">${character.name}</div>
                     </div>
                 `
@@ -231,6 +181,68 @@ class ChallengeGenerator {
         `;
 
     charactersSection.innerHTML = charactersHTML;
+  }
+
+  initializeChallengeItems() {
+    const items = [];
+
+    items.push(new ChallengeItem("No healing allowed", "restriction", 1));
+    items.push(new ChallengeItem("Only use melee weapons", "restriction", 1, {
+      exclusiveGroup: "weapon_type",
+      conflicts: ["Only use ranged weapons"]
+    }));
+    items.push(new ChallengeItem("Only use ranged weapons", "restriction", 1, {
+      exclusiveGroup: "weapon_type", 
+      conflicts: ["Only use melee weapons"]
+    }));
+    items.push(new ChallengeItem("No magic/ash of war allowed", "restriction", 1));
+    items.push(new ChallengeItem("No character skills", "restriction", 1));
+    items.push(new ChallengeItem("No ultimate art", "restriction", 1));
+    items.push(new ChallengeItem("No downs", "restriction", 1, {
+      exclusiveGroup: "death_penalty",
+      conflicts: ["No picking up runes after death"]
+    }));
+    items.push(new ChallengeItem("No picking up runes after death", "restriction", 1, {
+      exclusiveGroup: "death_penalty",
+      conflicts: ["No downs"]
+    }));
+    items.push(new ChallengeItem("No leveling", "restriction", 1));
+    items.push(new ChallengeItem("No churches", "restriction", 1));
+    items.push(new ChallengeItem("No wending grace", "restriction", 1, {
+      exclusiveGroup: "navigation_items",
+      conflicts: ["No consumable items", "No stoneshard keys"]
+    }));
+    items.push(new ChallengeItem("No consumable items", "restriction", 1, {
+      exclusiveGroup: "navigation_items",
+      conflicts: ["No wending grace", "No stoneshard keys"]
+    }));
+    items.push(new ChallengeItem("No stoneshard keys", "restriction", 1, {
+      exclusiveGroup: "navigation_items", 
+      conflicts: ["No wending grace", "No consumable items"]
+    }));
+    items.push(new ChallengeItem("No relics", "restriction", 1, {
+      exclusiveGroup: "relic_restrictions"
+    }));
+    items.push(new ChallengeItem("Only 2 relics", "restriction", 1, {
+      exclusiveGroup: "relic_restrictions"
+    }));
+    items.push(new ChallengeItem("Only 1 relic", "restriction", 1, {
+      exclusiveGroup: "relic_restrictions"
+    }));
+    items.push(new ChallengeItem("Drop weapon at spawn", "restriction", 1));
+    items.push(new ChallengeItem("No grouping (when possible)", "restriction", 1));
+    items.push(new ChallengeItem("No field bosses", "restriction", 1));
+    items.push(new ChallengeItem("No blacksmiths/merchants", "restriction", 1));
+    items.push(new ChallengeItem("Starter weapon only", "restriction", 1, {
+      conflicts: ["Rare or below weapons only"]
+    }));
+    items.push(new ChallengeItem("Rare or below weapons only", "restriction", 1, {
+      conflicts: ["Starter weapon only"]
+    }));
+    items.push(new ChallengeItem("No spiritual spring or spectral hawk", "restriction", 1));
+    items.push(new ChallengeItem("No surge sprint", "restriction", 1));
+
+    return items;
   }
 
   generateChallenge() {
@@ -250,9 +262,9 @@ class ChallengeGenerator {
     const challengeHTML = `
             ${selectedModifiers
               .map(
-                (modifier) => `
+                (item) => `
                 <div class="challenge-item">
-                    <strong>${modifier.category}:</strong> ${modifier.text}
+                    <strong>${item.category}:</strong> ${item.description}
                 </div>
             `
               )

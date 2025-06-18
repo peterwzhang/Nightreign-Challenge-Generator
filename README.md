@@ -1,6 +1,6 @@
 # Elden Ring Nightreign Challenge Run Generator
 
-A simple web page to generate randomized challenge runs for you and your friends for Elden Ring Nightreign. Visit the GitHub Pages site: `https://peterwzhang.github.io/Nightreign-Challenge-Generator/`
+A simple web page to generate randomized challenge runs for you and your friends for Elden Ring Nightreign. Visit the GitHub Pages site: <https://peterwzhang.github.io/Nightreign-Challenge-Generator/>
 
 ## ✨ Features
 

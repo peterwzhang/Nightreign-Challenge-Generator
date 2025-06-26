@@ -302,6 +302,61 @@ main {
   font-size: 1.1rem;
 }
 
+/* Boss section */
+.boss-section {
+  margin-bottom: 25px;
+}
+
+.boss-card {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border-radius: 15px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 500px;
+  margin: 15px auto 0;
+}
+
+.boss-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+}
+
+.boss-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.boss-info {
+  flex: 1;
+  text-align: left;
+}
+
+.boss-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.boss-description {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
 /* Footer */
 footer {
   text-align: center;
@@ -431,6 +486,23 @@ footer a:hover {
     padding: 10px;
     font-size: 0.9rem;
   }
+
+  .boss-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 20px 15px;
+  }
+
+  .boss-image {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .boss-info {
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -458,5 +530,24 @@ footer a:hover {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+  }
+
+  .boss-card {
+    padding: 15px 10px;
+    margin: 10px auto 0;
+  }
+
+  .boss-image {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+
+  .boss-name {
+    font-size: 1.1rem;
+  }
+
+  .boss-description {
+    font-size: 0.85rem;
   }
 }

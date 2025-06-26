@@ -68,10 +68,31 @@ class ChallengeItem {
   }
 }
 
+class Boss {
+  constructor(nightlord, icon, expedition) {
+    this.nightlord = nightlord;
+    this.icon = icon;
+    this.expedition = expedition;
+  }
+
+  getDisplayName() {
+    return this.expedition;
+  }
+
+  getDescription() {
+    return this.nightlord;
+  }
+
+  getDisplayIcon() {
+    return this.icon;
+  }
+}
+
 class ChallengeGenerator {
   constructor() {
     this.challengeItems = this.initializeChallengeItems();
     this.characters = this.initializeCharacters();
+    this.bosses = this.initializeBosses();
     this.initializeEventListeners();
   }
 
@@ -85,6 +106,19 @@ class ChallengeGenerator {
       new Character("Revenant", "🏺"),
       new Character("Recluse", "⚡"),
       new Character("Executor", "🌟"),
+    ];
+  }
+
+  initializeBosses() {
+    return [
+      new Boss("Tricephalos", "🐲", "Gladius, Beast of Night"),
+      new Boss("Gaping Jaw", "🦈", "Adel, Baron of Night"),
+      new Boss("Sentient Pest", "🪲", "Gnoster, Wisdom of Night"),
+      new Boss("Augur", "🦉", "Maris, Fathom of Night"),
+      new Boss("Equilibrious Beast", "⚖️", "Libra, Creature of Night"),
+      new Boss("Darkdrift Knight", "🗡️", "Fulghor, Champion of Nightglow"),
+      new Boss("Fissure in the Fog", "🌫️", "Caligo, Miasma of Night"),
+      new Boss("Night Aspect", "🌑", "Heolstor the Nightlord")
     ];
   }
 
@@ -154,6 +188,10 @@ class ChallengeGenerator {
     return characters;
   }
 
+  generateBoss() {
+    return this.getRandomElement(this.bosses);
+  }
+
   renderCharacters(characters) {
     const charactersSection = document.getElementById("charactersSection");
 
@@ -181,6 +219,23 @@ class ChallengeGenerator {
         `;
 
     charactersSection.innerHTML = charactersHTML;
+  }
+
+  renderBoss(boss) {
+    const bossSection = document.getElementById("bossSection");
+
+    const bossHTML = `
+            <h4 style="margin-bottom: 15px; color: #333;">Your Target Boss:</h4>
+            <div class="boss-card">
+                <div class="boss-image">${boss.getDisplayIcon()}</div>
+                <div class="boss-info">
+                    <div class="boss-name">${boss.getDisplayName()}</div>
+                    <div class="boss-description">${boss.getDescription()}</div>
+                </div>
+            </div>
+        `;
+
+    bossSection.innerHTML = bossHTML;
   }
 
   initializeChallengeItems() {
@@ -256,6 +311,9 @@ class ChallengeGenerator {
 
     const characters = this.generateCharacters(isMultiplayer);
     this.renderCharacters(characters);
+
+    const boss = this.generateBoss();
+    this.renderBoss(boss);
 
     const selectedModifiers = this.getRandomModifiers(modifierCount);
 

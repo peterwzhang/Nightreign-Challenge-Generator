@@ -239,65 +239,75 @@ class ChallengeGenerator {
   }
 
   initializeChallengeItems() {
-    const items = [];
-
-    items.push(new ChallengeItem("No healing allowed", "restriction", 1));
-    items.push(new ChallengeItem("Only use melee weapons", "restriction", 1, {
-      exclusiveGroup: "weapon_type",
-      conflicts: ["Only use ranged weapons"]
-    }));
-    items.push(new ChallengeItem("Only use ranged weapons", "restriction", 1, {
-      exclusiveGroup: "weapon_type", 
-      conflicts: ["Only use melee weapons"]
-    }));
-    items.push(new ChallengeItem("No magic/ash of war allowed", "restriction", 1));
-    items.push(new ChallengeItem("No character skills", "restriction", 1));
-    items.push(new ChallengeItem("No ultimate art", "restriction", 1));
-    items.push(new ChallengeItem("No downs", "restriction", 1, {
-      exclusiveGroup: "death_penalty",
-      conflicts: ["No picking up runes after death"]
-    }));
-    items.push(new ChallengeItem("No picking up runes after death", "restriction", 1, {
-      exclusiveGroup: "death_penalty",
-      conflicts: ["No downs"]
-    }));
-    items.push(new ChallengeItem("No leveling", "restriction", 1));
-    items.push(new ChallengeItem("No churches", "restriction", 1));
-    items.push(new ChallengeItem("No wending grace", "restriction", 1, {
-      exclusiveGroup: "navigation_items",
-      conflicts: ["No consumable items", "No stoneshard keys"]
-    }));
-    items.push(new ChallengeItem("No consumable items", "restriction", 1, {
-      exclusiveGroup: "navigation_items",
-      conflicts: ["No wending grace", "No stoneshard keys"]
-    }));
-    items.push(new ChallengeItem("No stoneshard keys", "restriction", 1, {
-      exclusiveGroup: "navigation_items", 
-      conflicts: ["No wending grace", "No consumable items"]
-    }));
-    items.push(new ChallengeItem("No relics", "restriction", 1, {
-      exclusiveGroup: "relic_restrictions"
-    }));
-    items.push(new ChallengeItem("Only 2 relics", "restriction", 1, {
-      exclusiveGroup: "relic_restrictions"
-    }));
-    items.push(new ChallengeItem("Only 1 relic", "restriction", 1, {
-      exclusiveGroup: "relic_restrictions"
-    }));
-    items.push(new ChallengeItem("Drop weapon at spawn", "restriction", 1));
-    items.push(new ChallengeItem("No grouping (when possible)", "restriction", 1));
-    items.push(new ChallengeItem("No field bosses", "restriction", 1));
-    items.push(new ChallengeItem("No blacksmiths/merchants", "restriction", 1));
-    items.push(new ChallengeItem("Starter weapon only", "restriction", 1, {
-      conflicts: ["Rare or below weapons only"]
-    }));
-    items.push(new ChallengeItem("Rare or below weapons only", "restriction", 1, {
-      conflicts: ["Starter weapon only"]
-    }));
-    items.push(new ChallengeItem("No spiritual spring or spectral hawk", "restriction", 1));
-    items.push(new ChallengeItem("No surge sprint", "restriction", 1));
-
-    return items;
+    return [
+      new ChallengeItem("No healing allowed", "restriction", 1),
+      new ChallengeItem("Only use melee weapons", "restriction", 1, {
+        exclusiveGroup: "weapon_type",
+        conflicts: ["Only use ranged weapons"]
+      }),
+      new ChallengeItem("Only use ranged weapons", "restriction", 1, {
+        exclusiveGroup: "weapon_type", 
+        conflicts: ["Only use melee weapons"]
+      }),
+      new ChallengeItem("No magic/ash of war allowed", "restriction", 1),
+      new ChallengeItem("No character skills", "restriction", 1),
+      new ChallengeItem("No ultimate art", "restriction", 1),
+      new ChallengeItem("No downs", "restriction", 1, {
+        exclusiveGroup: "death_penalty",
+        conflicts: ["No picking up runes after death"]
+      }),
+      new ChallengeItem("No picking up runes after death", "restriction", 1, {
+        exclusiveGroup: "death_penalty",
+        conflicts: ["No downs"]
+      }),
+      new ChallengeItem("No leveling", "restriction", 0.2, {
+        exclusiveGroup: "level_restrictions"
+      }),
+      new ChallengeItem("No churches", "restriction", 1),
+      new ChallengeItem("No wending grace", "restriction", 1, {
+        exclusiveGroup: "navigation_items",
+        conflicts: ["No consumable items", "No stoneshard keys"]
+      }),
+      new ChallengeItem("No consumable items", "restriction", 1, {
+        exclusiveGroup: "navigation_items",
+        conflicts: ["No wending grace", "No stoneshard keys"]
+      }),
+      new ChallengeItem("No stoneshard keys", "restriction", 1, {
+        exclusiveGroup: "navigation_items", 
+        conflicts: ["No wending grace", "No consumable items"]
+      }),
+      new ChallengeItem("No relics", "restriction", 1, {
+        exclusiveGroup: "relic_restrictions"
+      }),
+      new ChallengeItem("Only 2 relics", "restriction", 1, {
+        exclusiveGroup: "relic_restrictions"
+      }),
+      new ChallengeItem("Only 1 relic", "restriction", 1, {
+        exclusiveGroup: "relic_restrictions"
+      }),
+      new ChallengeItem("Drop weapon at spawn", "restriction", 1),
+      new ChallengeItem("No grouping (when possible)", "restriction", 1),
+      new ChallengeItem("No field bosses", "restriction", 1),
+      new ChallengeItem("No blacksmiths/merchants", "restriction", 1),
+      new ChallengeItem("Starter weapon only", "restriction", 1, {
+        conflicts: ["Rare or below weapons only"]
+      }),
+      new ChallengeItem("Rare or below weapons only", "restriction", 1, {
+        conflicts: ["Starter weapon only"]
+      }),
+      new ChallengeItem("No spiritual spring or spectral hawk", "restriction", 1),
+      new ChallengeItem("No surge sprint", "restriction", 1),
+      new ChallengeItem("No blacksmith", "restriction", 1),
+      new ChallengeItem("No flask upgrades", "restriction", 1),
+      new ChallengeItem("Defeat the Nightlord within 40 minutes", "objective", 1),
+      new ChallengeItem("No dodge rolling (blocking allowed)", "restriction", 0.8),
+      new ChallengeItem("Stay below level 10", "restriction", 0.8, {
+        exclusiveGroup: "level_restrictions"
+      }),
+      new ChallengeItem("Stay below level 5", "restriction", 0.4, {
+        exclusiveGroup: "level_restrictions"
+      }),
+    ];
   }
 
   generateChallenge() {

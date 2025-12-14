@@ -106,6 +106,8 @@ class ChallengeGenerator {
       new Character("Revenant", "🏺"),
       new Character("Recluse", "⚡"),
       new Character("Executor", "🌟"),
+      new Character("Scholar", "📚"),
+      new Character("Undertaker", "⚰️"),
     ];
   }
 
@@ -118,7 +120,9 @@ class ChallengeGenerator {
       new Boss("Equilibrious Beast", "⚖️", "Libra, Creature of Night"),
       new Boss("Darkdrift Knight", "🗡️", "Fulghor, Champion of Nightglow"),
       new Boss("Fissure in the Fog", "🌫️", "Caligo, Miasma of Night"),
-      new Boss("Night Aspect", "🌑", "Heolstor the Nightlord")
+      new Boss("Night Aspect", "🌑", "Heolstor the Nightlord"),
+      new Boss("Dreglord", "👹", "Traitorous Straghess"),
+      new Boss("Balancers", "🔱", "Weapon Bequeathed Harmoni")
     ];
   }
 
@@ -203,7 +207,7 @@ class ChallengeGenerator {
     const title = characters.length > 1 ? "Your Team:" : "Your Character:";
 
     const charactersHTML = `
-            <h4 style="margin-bottom: 15px; color: #333;">${title}</h4>
+            <h4 style="margin-bottom: 15px; color: #e8e6e3;">${title}</h4>
             <div class="characters-grid" data-count="${characters.length}">
                 ${characters
                   .map(
@@ -225,7 +229,7 @@ class ChallengeGenerator {
     const bossSection = document.getElementById("bossSection");
 
     const bossHTML = `
-            <h4 style="margin-bottom: 15px; color: #333;">Your Target Boss:</h4>
+            <h4 style="margin-bottom: 15px; color: #e8e6e3;">Your Target Boss:</h4>
             <div class="boss-card">
                 <div class="boss-image">${boss.getDisplayIcon()}</div>
                 <div class="boss-info">
@@ -341,8 +345,6 @@ class ChallengeGenerator {
 
     challengeContent.innerHTML = challengeHTML;
     challengeResult.classList.remove("hidden");
-
-    challengeResult.scrollIntoView({ behavior: "smooth" });
   }
 }
 

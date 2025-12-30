@@ -300,7 +300,7 @@ class ChallengeGenerator {
       new ChallengeItem("Drop weapon at spawn", "restriction", 1),
       new ChallengeItem("No grouping (when possible)", "restriction", 1),
       new ChallengeItem("No field bosses", "restriction", 1),
-      new ChallengeItem("No blacksmiths/merchants", "restriction", 1),
+      new ChallengeItem("No merchants", "restriction", 1),
       new ChallengeItem("Starter weapon only", "restriction", 1, {
         conflicts: ["Rare or below weapons only"]
       }),
@@ -310,7 +310,7 @@ class ChallengeGenerator {
       new ChallengeItem("No spectral hawk", "restriction", 1),
       new ChallengeItem("No surge sprint", "restriction", 1),
       new ChallengeItem("No spirit spring", "restriction", 1),
-      new ChallengeItem("No blacksmith", "restriction", 1),
+      new ChallengeItem("No blacksmiths", "restriction", 1),
       new ChallengeItem("No flask upgrades", "restriction", 1),
       new ChallengeItem("Defeat the Nightlord within 40 minutes", "objective", 1),
       new ChallengeItem("No dodge rolling (blocking allowed)", "restriction", 0.8),

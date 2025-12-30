@@ -299,8 +299,9 @@ class ChallengeGenerator {
       new ChallengeItem("Rare or below weapons only", "restriction", 1, {
         conflicts: ["Starter weapon only"]
       }),
-      new ChallengeItem("No spiritual spring or spectral hawk", "restriction", 1),
+      new ChallengeItem("No spectral hawk", "restriction", 1),
       new ChallengeItem("No surge sprint", "restriction", 1),
+      new ChallengeItem("No spirit spring", "restriction", 1),
       new ChallengeItem("No blacksmith", "restriction", 1),
       new ChallengeItem("No flask upgrades", "restriction", 1),
       new ChallengeItem("Defeat the Nightlord within 40 minutes", "objective", 1),

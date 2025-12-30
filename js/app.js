@@ -106,6 +106,8 @@ class ChallengeGenerator {
       new Character("Revenant", "🏺"),
       new Character("Recluse", "⚡"),
       new Character("Executor", "🌟"),
+      new Character("Scholar", "📚"),
+      new Character("Undertaker", "⚰️"),
     ];
   }
 
@@ -118,16 +120,26 @@ class ChallengeGenerator {
       new Boss("Equilibrious Beast", "⚖️", "Libra, Creature of Night"),
       new Boss("Darkdrift Knight", "🗡️", "Fulghor, Champion of Nightglow"),
       new Boss("Fissure in the Fog", "🌫️", "Caligo, Miasma of Night"),
-      new Boss("Night Aspect", "🌑", "Heolstor the Nightlord")
+      new Boss("Night Aspect", "🌑", "Heolstor the Nightlord"),
+      new Boss("Dreglord", "👹", "Traitorous Straghess"),
+      new Boss("Balancers", "🔱", "Weapon Bequeathed Harmoni")
     ];
   }
 
   initializeEventListeners() {
     const generateBtn = document.getElementById("generateBtn");
-    const newChallengeBtn = document.getElementById("newChallengeBtn");
+    const multiplayerToggle = document.getElementById("multiplayerToggle");
+    const playerCountContainer = document.getElementById("playerCountContainer");
 
     generateBtn.addEventListener("click", () => this.generateChallenge());
-    newChallengeBtn.addEventListener("click", () => this.generateChallenge());
+
+    multiplayerToggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        playerCountContainer.classList.remove("hidden");
+      } else {
+        playerCountContainer.classList.add("hidden");
+      }
+    });
   }
 
   getRandomElement(array) {
@@ -177,8 +189,8 @@ class ChallengeGenerator {
     return this.getRandomElement(this.characters);
   }
 
-  generateCharacters(isMultiplayer) {
-    const characterCount = isMultiplayer ? 3 : 1;
+  generateCharacters(isMultiplayer, playerCount = 3) {
+    const characterCount = isMultiplayer ? playerCount : 1;
     const characters = [];
 
     for (let i = 0; i < characterCount; i++) {
@@ -203,7 +215,7 @@ class ChallengeGenerator {
     const title = characters.length > 1 ? "Your Team:" : "Your Character:";
 
     const charactersHTML = `
-            <h4 style="margin-bottom: 15px; color: #333;">${title}</h4>
+            <h4 class="section-title">${title}</h4>
             <div class="characters-grid" data-count="${characters.length}">
                 ${characters
                   .map(
@@ -225,7 +237,7 @@ class ChallengeGenerator {
     const bossSection = document.getElementById("bossSection");
 
     const bossHTML = `
-            <h4 style="margin-bottom: 15px; color: #333;">Your Target Boss:</h4>
+            <h4 class="section-title">Your Target Boss:</h4>
             <div class="boss-card">
                 <div class="boss-image">${boss.getDisplayIcon()}</div>
                 <div class="boss-info">
@@ -288,16 +300,17 @@ class ChallengeGenerator {
       new ChallengeItem("Drop weapon at spawn", "restriction", 1),
       new ChallengeItem("No grouping (when possible)", "restriction", 1),
       new ChallengeItem("No field bosses", "restriction", 1),
-      new ChallengeItem("No blacksmiths/merchants", "restriction", 1),
+      new ChallengeItem("No merchants", "restriction", 1),
       new ChallengeItem("Starter weapon only", "restriction", 1, {
         conflicts: ["Rare or below weapons only"]
       }),
       new ChallengeItem("Rare or below weapons only", "restriction", 1, {
         conflicts: ["Starter weapon only"]
       }),
-      new ChallengeItem("No spiritual spring or spectral hawk", "restriction", 1),
+      new ChallengeItem("No spectral hawk", "restriction", 1),
       new ChallengeItem("No surge sprint", "restriction", 1),
-      new ChallengeItem("No blacksmith", "restriction", 1),
+      new ChallengeItem("No spirit spring", "restriction", 1),
+      new ChallengeItem("No blacksmiths", "restriction", 1),
       new ChallengeItem("No flask upgrades", "restriction", 1),
       new ChallengeItem("Defeat the Nightlord within 40 minutes", "objective", 1),
       new ChallengeItem("No dodge rolling (blocking allowed)", "restriction", 0.8),
@@ -315,11 +328,13 @@ class ChallengeGenerator {
     const challengeContent = document.getElementById("challengeContent");
     const multiplayerToggle = document.getElementById("multiplayerToggle");
     const modifierCountSelect = document.getElementById("modifierCount");
+    const playerCountSelect = document.getElementById("playerCount");
 
     const isMultiplayer = multiplayerToggle.checked;
     const modifierCount = parseInt(modifierCountSelect.value);
+    const playerCount = parseInt(playerCountSelect.value);
 
-    const characters = this.generateCharacters(isMultiplayer);
+    const characters = this.generateCharacters(isMultiplayer, playerCount);
     this.renderCharacters(characters);
 
     const boss = this.generateBoss();
@@ -341,8 +356,6 @@ class ChallengeGenerator {
 
     challengeContent.innerHTML = challengeHTML;
     challengeResult.classList.remove("hidden");
-
-    challengeResult.scrollIntoView({ behavior: "smooth" });
   }
 }
 

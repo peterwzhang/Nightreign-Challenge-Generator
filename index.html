@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Challenge Run Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <div class="container">
       <header>
-        <h1>🎮 Nightreign Challenge Run Generator</h1>
+        <h1>Nightreign Challenge Run Generator</h1>
         <p>Generate a unique challenge run for you and your friends!</p>
       </header>
 
@@ -28,6 +31,15 @@
                   <span class="toggle-slider"></span>
                   <span class="toggle-text">Multiplayer Mode</span>
                 </label>
+              </div>
+              <div id="playerCountContainer" class="player-count-container hidden">
+                <label for="playerCount" class="player-count-label"
+                  >Party Size:</label
+                >
+                <select id="playerCount" class="player-count-select">
+                  <option value="2">Duo (2 Players)</option>
+                  <option value="3" selected>Trio (3 Players)</option>
+                </select>
               </div>
               <div class="modifier-count-container">
                 <label for="modifierCount" class="modifier-label"
@@ -59,9 +71,6 @@
             <div id="challengeContent" class="challenge-content">
               <!-- Generated challenge will appear here -->
             </div>
-            <button id="newChallengeBtn" class="secondary-btn">
-              Generate New Challenge
-            </button>
           </div>
         </div>
       </main>

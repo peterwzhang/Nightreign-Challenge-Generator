@@ -29,6 +29,15 @@
                   <span class="toggle-text">Multiplayer Mode</span>
                 </label>
               </div>
+              <div id="playerCountContainer" class="player-count-container hidden">
+                <label for="playerCount" class="player-count-label"
+                  >Party Size:</label
+                >
+                <select id="playerCount" class="player-count-select">
+                  <option value="2">Duo (2 Players)</option>
+                  <option value="3" selected>Trio (3 Players)</option>
+                </select>
+              </div>
               <div class="modifier-count-container">
                 <label for="modifierCount" class="modifier-label"
                   >Number of Modifiers:</label
@@ -59,9 +68,6 @@
             <div id="challengeContent" class="challenge-content">
               <!-- Generated challenge will appear here -->
             </div>
-            <button id="newChallengeBtn" class="secondary-btn">
-              Generate New Challenge
-            </button>
           </div>
         </div>
       </main>

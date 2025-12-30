@@ -128,10 +128,18 @@ class ChallengeGenerator {
 
   initializeEventListeners() {
     const generateBtn = document.getElementById("generateBtn");
-    const newChallengeBtn = document.getElementById("newChallengeBtn");
+    const multiplayerToggle = document.getElementById("multiplayerToggle");
+    const playerCountContainer = document.getElementById("playerCountContainer");
 
     generateBtn.addEventListener("click", () => this.generateChallenge());
-    newChallengeBtn.addEventListener("click", () => this.generateChallenge());
+
+    multiplayerToggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        playerCountContainer.classList.remove("hidden");
+      } else {
+        playerCountContainer.classList.add("hidden");
+      }
+    });
   }
 
   getRandomElement(array) {
@@ -181,8 +189,8 @@ class ChallengeGenerator {
     return this.getRandomElement(this.characters);
   }
 
-  generateCharacters(isMultiplayer) {
-    const characterCount = isMultiplayer ? 3 : 1;
+  generateCharacters(isMultiplayer, playerCount = 3) {
+    const characterCount = isMultiplayer ? playerCount : 1;
     const characters = [];
 
     for (let i = 0; i < characterCount; i++) {
@@ -320,11 +328,13 @@ class ChallengeGenerator {
     const challengeContent = document.getElementById("challengeContent");
     const multiplayerToggle = document.getElementById("multiplayerToggle");
     const modifierCountSelect = document.getElementById("modifierCount");
+    const playerCountSelect = document.getElementById("playerCount");
 
     const isMultiplayer = multiplayerToggle.checked;
     const modifierCount = parseInt(modifierCountSelect.value);
+    const playerCount = parseInt(playerCountSelect.value);
 
-    const characters = this.generateCharacters(isMultiplayer);
+    const characters = this.generateCharacters(isMultiplayer, playerCount);
     this.renderCharacters(characters);
 
     const boss = this.generateBoss();

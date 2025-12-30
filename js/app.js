@@ -215,7 +215,7 @@ class ChallengeGenerator {
     const title = characters.length > 1 ? "Your Team:" : "Your Character:";
 
     const charactersHTML = `
-            <h4 style="margin-bottom: 15px; color: #e8e6e3;">${title}</h4>
+            <h4 class="section-title">${title}</h4>
             <div class="characters-grid" data-count="${characters.length}">
                 ${characters
                   .map(
@@ -237,7 +237,7 @@ class ChallengeGenerator {
     const bossSection = document.getElementById("bossSection");
 
     const bossHTML = `
-            <h4 style="margin-bottom: 15px; color: #e8e6e3;">Your Target Boss:</h4>
+            <h4 class="section-title">Your Target Boss:</h4>
             <div class="boss-card">
                 <div class="boss-image">${boss.getDisplayIcon()}</div>
                 <div class="boss-info">

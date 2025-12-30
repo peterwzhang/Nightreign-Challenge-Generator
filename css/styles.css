@@ -375,6 +375,11 @@ main {
   margin-bottom: 10px;
 }
 
+.section-title {
+  margin-bottom: 15px;
+  color: #e8e6e3;
+}
+
 .characters-grid {
   display: grid;
   gap: 10px;
